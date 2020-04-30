@@ -42,12 +42,23 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
     // ----------------------------------------------------
     
     // RENDER OPTIONS
-    bool renderScene = true;
+    // you can also view the point cloud without obstacles by setting renderScene to false
+    //bool renderScene = true;
+    bool renderScene = false;
     std::vector<Car> cars = initHighway(renderScene, viewer);
     
-    // TODO:: Create lidar sensor 
+    //Create lidar sensor 
+    Lidar lidar(cars, 0.0); 
 
     // TODO:: Create point processor
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = lidar.scan();
+    
+    // Now you will view the lidar's point cloud by itself, without the rays.
+    // To do this, call renderPointCloud instead of renderRays in the simpleHighway function
+    //renderRays(viewer,lidar->position, cloud);
+    renderPointCloud(viewer, cloud, "cloud");
+
+    pcl::PointXYZ processPointClouds;
   
 }
 
