@@ -49,15 +49,15 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
     std::vector<Car> cars = initHighway(renderScene, viewer);
     
     //Create lidar sensor 
-    Lidar lidar(cars, 0.0); 
+    Lidar* lidar = new Lidar(cars, 0.0); 
 
     // Create point processor
-    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = lidar.scan();
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud = lidar->scan();
     
     // Now you will view the lidar's point cloud by itself, without the rays.
     // To do this, call renderPointCloud instead of renderRays in the simpleHighway function
     //renderRays(viewer,lidar->position, cloud);
-    //renderPointCloud(viewer, cloud, "cloud");
+    renderPointCloud(viewer, cloud, "cloud");
     
     ProcessPointClouds<pcl::PointXYZ> *pointProcessor = new ProcessPointClouds<pcl::PointXYZ>();
     std::pair<pcl::PointCloud<pcl::PointXYZ>::Ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr> segmentCloud = pointProcessor->SegmentPlane(cloud, 100, 0.2);
